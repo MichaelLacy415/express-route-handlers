@@ -27,6 +27,37 @@ const app = express();
 // Your code here
 app.use(express.json())
 
+
+
+
+app.get("/artists/latest/albums", (req, res) => {
+  res.json(getAlbumsForLatestArtist())
+})
+
+app.get("/artists/latest", (req, res) => {
+  res.json(getLatestArtist())
+})
+
+app.route("/artists/:artistId")
+  .get((req, res) => {
+    console.log("REQID", req.params)
+    const artistId = req.params.artistId
+    res.json(getArtistByArtistId(artistId))
+  })
+  .put((req, res) => {
+    const artistId = req.params.artistId
+    const data = req.body
+    res.json(editArtistByArtistId(artistId, data))
+  })
+  .delete((req, res) => {
+    const artistId = req.params.artistId
+    deleteArtistByArtistId(artistId)
+    res.json({
+      "message": "Successfully deleted"
+    })
+  })
+
+
 app.route("/artists")
   .get((req, res) => {
     res.statusCode = 200
