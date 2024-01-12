@@ -27,18 +27,18 @@ const app = express();
 // Your code here
 app.use(express.json())
 
-app.get('/artists', (req, res) => {
-  res.statusCode = 200
-  res.set('Content-Type', 'application/json')
-  res.json(getAllArtists())
-})
-
-app.post('/artists', (req, res) => {
-  res.set("Content-Type", "application/json")
-  // const { name } = req.body
-  // const { name : artistName} = req.body
-  res.status(201)
-})
+app.route("/artists")
+  .get((req, res) => {
+    res.statusCode = 200
+    const artists = getAllArtists()
+    res.json(artists)
+  })
+  .post((req, res) => {
+    const name = req.body
+    addArtist(name)
+    res.status(201)
+    res.json(name)
+  })
 
 // DO NOT MODIFY
 if (require.main === module) {
